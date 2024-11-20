@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+<script>
+    // Step : 1
+    // Write and deploy smartcontract to blockchain
+
+    // Step : 2
+    // Connect to blockchain node and preparing SmartContract Connection
+    const web3 = new Web3('http://127.0.0.1:7545');
+
+    // Let web3 know our contract ABI
+    const contract_abi = [{
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "reporter",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "reportId",
+                "type": "uint256"
+            }
+        ],
+        "name": "NewReport",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "reporter",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "RewardGiven",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_stationName",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_trainCar",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_density",
+                "type": "string"
+            }
+        ],
+        "name": "reportDensity",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "balances",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            }
+        ],
+        "name": "getBalance",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_stationName",
+                "type": "string"
+            }
+        ],
+        "name": "getRecentReports",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "address",
+                        "name": "reporter",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "stationName",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "trainCar",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "density",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "timestamp",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct MetroSense.Report[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "reports",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "reporter",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "stationName",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "trainCar",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "density",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "rewardTokens",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+    ];
+
+    // Setup contract to interaction
+    const contract_address = "0xDc22CCE649B845B40970d9C058F301e091d321D1";
+    const contract = new web3.eth.Contract(contract_abi, contract_address);
+
+    // Current user address
+    let currentAccount;
+
+    // Request user's account
+    async function connectWallet() {
+        const accounts = await web3.eth.requestAccounts();
+        currentAccount = accounts[0];
+        console.log("Connected account:", currentAccount);
+    }
+    connectWallet();
+
+    // Report Density
+    document.getElementById('reportForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const station = document.getElementById('station').value;
+        const car = document.getElementById('car').value;
+        const density = document.getElementById('density').value;
+
+        try {
+            await contract.methods.reportDensity(station, car, density).send({ from: currentAccount });
+            document.getElementById('reportResult').innerText = "Report submitted successfully!";
+        } catch (err) {
+            console.error(err);
+            document.getElementById('reportResult').innerText = "Error submitting report.";
+        }
+    });
+
+    // View Recent Reports
+    document.getElementById('viewReportsForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const stationView = document.getElementById('stationView').value;
+
+        try {
+            const reports = await contract.methods.getRecentReports(stationView).call();
+            let result = "<h3>Recent Reports:</h3>";
+            if (reports.length === 0) {
+                result += "<p>No reports in the last 5 minutes.</p>";
+            } else {
+                reports.forEach((report, index) => {
+                    result += `
+              <p>
+                Report ${index + 1}: <br>
+                Train Car: ${report.trainCar} <br>
+                Density: ${report.density} <br>
+                Timestamp: ${new Date(report.timestamp * 1000).toLocaleString()} <br>
+              </p>`;
+                });
+            }
+            document.getElementById('viewReportsResult').innerHTML = result;
+        } catch (err) {
+            console.error(err);
+            document.getElementById('viewReportsResult').innerText = "Error fetching reports.";
+        }
+    });
+
+    // View Balance
+    document.getElementById('viewBalance').addEventListener('click', async () => {
+        try {
+            const balance = await contract.methods.getBalance(currentAccount).call();
+            document.getElementById('balanceResult').innerText = `Your balance: ${balance} tokens`;
+        } catch (err) {
+            console.error(err);
+            document.getElementById('balanceResult').innerText = "Error fetching balance.";
+        }
+    });
+</script>
+
+<h1>MetroSense DApp</h1>
+
+<!-- Section: Report Density -->
+<h2>Report Density</h2>
+<form id="reportForm" onsubmit="return false;">
+    <label for="station">Station Name:</label>
+    <input type="text" id="station" required><br>
+
+    <label for="car">Train Car Number:</label>
+    <input type="text" id="car" required><br>
+
+    <label for="density">Density:</label>
+    <select id="density">
+        <option value="Low">Not Crowded</option>
+        <option value="Medium">Moderately Crowded</option>
+        <option value="High">Very Crowded</option>
+    </select><br>
+
+    <button type="submit">Submit Report</button>
+</form>
+<div id="reportResult"></div>
+
+<!-- Section: View Recent Reports -->
+<h2>View Recent Reports</h2>
+<form id="viewReportsForm">
+    <label for="stationView">Station Name:</label>
+    <input type="text" id="stationView" required><br>
+    <button type="submit">View Reports</button>
+</form>
+<div id="viewReportsResult"></div>
+
+<!-- Section: View Balance -->
+<h2>Your Balance</h2>
+<button id="viewBalance">Check Balance</button>
+<div id="balanceResult"></div>
+
+</html>
