@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Density Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.8.1/dist/web3.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>Train Density Report</h1>
+
+  <h2>Select Account</h2>
+  <select id="accountSelect"></select>
+
+  <h2>Report Density</h2>
+  <form id="reportForm">
+    <label for="stationName">Station Name:</label>
+    <input type="text" id="stationName" required />
+    <br />
+
+    <label for="carriageNumber">Carriage Number:</label>
+    <input type="number" id="carriageNumber" required />
+    <br />
+
+    <label for="density">Density Level:</label>
+    <select id="density" required>
+      <option value="0">LOW</option>
+      <option value="1">MEDIUM</option>
+      <option value="2">HIGH</option>
+    </select>
+    <br />
+
+    <button type="submit">Submit Report</button>
+  </form>
+
+  <h2>Recent Reports</h2>
+  <input type="text" id="queryStation" placeholder="Enter station name" />
+  <button id="fetchReports">Fetch Reports</button>
+  <div id="reports"></div>
+</body>
+</html>
