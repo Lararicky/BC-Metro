@@ -186,12 +186,12 @@ reportForm.addEventListener('submit', async (e) => {
   try {
     await contract.methods
       .reportDensity(stationName, parseInt(carriageNumber), parseInt(densityLevel))
-      .send({ from: selectedAccount });
+      .send({ from: selectedAccount, gas: 300000 }); // Increase gas limit as needed
 
     alert('Report submitted successfully!');
   } catch (error) {
     console.error(error);
-    alert('Error submitting report');
+    alert(error);
   }
 });
 
