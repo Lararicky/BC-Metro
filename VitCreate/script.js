@@ -40,27 +40,23 @@ const contractABI = [
 		"type": "event"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_stationName",
-				"type": "string"
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
 			},
 			{
-				"internalType": "uint8",
-				"name": "_carriageNumber",
-				"type": "uint8"
-			},
-			{
-				"internalType": "enum TrainDensityReport.DensityLevel",
-				"name": "_density",
-				"type": "uint8"
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "newBalance",
+				"type": "uint256"
 			}
 		],
-		"name": "reportDensity",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+		"name": "TokenBalanceUpdated",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -111,6 +107,61 @@ const contractABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "getTokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "redeemTokens",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_stationName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint8",
+				"name": "_carriageNumber",
+				"type": "uint8"
+			},
+			{
+				"internalType": "enum TrainDensityReport.DensityLevel",
+				"name": "_density",
+				"type": "uint8"
+			}
+		],
+		"name": "reportDensity",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "string",
 				"name": "",
 				"type": "string"
@@ -151,9 +202,28 @@ const contractABI = [
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "tokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	}
 ];
-const contractAddress = '0x4AAB7C3E6BEeFB4a74803a24DB0bE3e46422E9E8'; // Contract Address
+const contractAddress = '0xF1d07950769E3F9d89FeE5Aa62F23Cff9A72E983'; // Contract Address
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 // DOM Elements
@@ -163,48 +233,51 @@ const fetchReportsBtn = document.getElementById('fetchReports');
 const reportsDiv = document.getElementById('reports');
 const queryStationInput = document.getElementById('queryStation');
 
+const checkBalanceBtn = document.getElementById('checkBalance');
+const balanceDisplay = document.getElementById('balanceDisplay');
+
 // Load accounts from Ganache
 async function loadAccounts() {
-  const accounts = await web3.eth.getAccounts();
-  accounts.forEach((account) => {
-    const option = document.createElement('option');
-    option.value = account;
-    option.textContent = account;
-    accountSelect.appendChild(option);
-  });
+	const accounts = await web3.eth.getAccounts();
+	accounts.forEach((account) => {
+		const option = document.createElement('option');
+		option.value = account;
+		option.textContent = account;
+		accountSelect.appendChild(option);
+	});
 }
 
 // Submit Report
 reportForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+	e.preventDefault();
 
-  const stationName = document.getElementById('stationName').value;
-  const carriageNumber = document.getElementById('carriageNumber').value;
-  const densityLevel = document.getElementById('density').value;
-  const selectedAccount = accountSelect.value;
+	const stationName = document.getElementById('stationName').value;
+	const carriageNumber = document.getElementById('carriageNumber').value;
+	const densityLevel = document.getElementById('density').value;
+	const selectedAccount = accountSelect.value;
 
-  try {
-    await contract.methods
-      .reportDensity(stationName, parseInt(carriageNumber), parseInt(densityLevel))
-      .send({ from: selectedAccount, gas: 300000 }); // Increase gas limit as needed
+	try {
+		await contract.methods
+			.reportDensity(stationName, parseInt(carriageNumber), parseInt(densityLevel))
+			.send({ from: selectedAccount, gas: 300000 }); // Increase gas limit as needed
 
-    alert('Report submitted successfully!');
-  } catch (error) {
-    console.error(error);
-    alert(error);
-  }
+		alert('Report submitted successfully!');
+	} catch (error) {
+		console.error(error);
+		alert(error);
+	}
 });
 
 // Fetch Recent Reports
 fetchReportsBtn.addEventListener('click', async () => {
-  const stationName = queryStationInput.value;
+	const stationName = queryStationInput.value;
 
-  try {
-    const reports = await contract.methods.getRecentReports(stationName).call();
+	try {
+		const reports = await contract.methods.getRecentReports(stationName).call();
 
-    reportsDiv.innerHTML = '<h3>Recent Reports:</h3>';
-    reports.forEach((report, index) => {
-      const reportHTML = `
+		reportsDiv.innerHTML = '<h3>Recent Reports:</h3>';
+		reports.forEach((report, index) => {
+			const reportHTML = `
         <div>
           <strong>Report #${index + 1}</strong><br>
           Station: ${report.stationName}<br>
@@ -215,12 +288,26 @@ fetchReportsBtn.addEventListener('click', async () => {
         </div>
         <hr>
       `;
-      reportsDiv.innerHTML += reportHTML;
-    });
-  } catch (error) {
-    console.error(error);
-    alert('Error fetching reports');
-  }
+			reportsDiv.innerHTML += reportHTML;
+		});
+	} catch (error) {
+		console.error(error);
+		alert('Error fetching reports');
+	}
+});
+
+// ADD ON Check Token Balance
+checkBalanceBtn.addEventListener('click', async () => {
+	const selectedAccount = accountSelect.value;
+
+	try {
+		// Call func. getTokenBalance from Smart Contract
+		const balance = await contract.methods.getTokenBalance(selectedAccount).call();
+		balanceDisplay.textContent = `Balance: ${balance} Token(s)`;
+	} catch (error) {
+		console.error(error);
+		alert('Error fetching token balance');
+	}
 });
 
 // Initialize accounts on page load
