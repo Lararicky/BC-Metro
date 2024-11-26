@@ -114,7 +114,74 @@
     <h2>Report Density</h2>
     <form id="reportForm">
       <label for="stationName">Station Name:</label>
-      <input type="text" id="stationName" placeholder="Enter station name" required />
+      <select id="stationName" name="stationName" required>
+        <option value="" disabled selected>Choose a station</option>
+        <!-- Sukhumvit Line -->
+        <optgroup label="Sukhumvit Line">
+          <option value="Kheha">เคหะฯ (Kheha)</option>
+          <option value="Sai Luat">สายลวด (Sai Luat)</option>
+          <option value="Pu Chao">ปู่เจ้าสมิงพราย (Pu Chao)</option>
+          <option value="Chang Erawan">ช้างเอราวัณ (Chang Erawan)</option>
+          <option value="Royal Thai Naval Academy">โรงเรียนนายเรือ (Royal Thai Naval Academy)</option>
+          <option value="Pak Nam">ปากน้ำ (Pak Nam)</option>
+          <option value="Sri Nakhon">ศรีนครินทร์ (Sri Nakhon)</option>
+          <option value="Bearing">แบริ่ง (Bearing)</option>
+          <option value="Bang Na">บางนา (Bang Na)</option>
+          <option value="Udom Suk">อุดมสุข (Udom Suk)</option>
+          <option value="Punnawithi">ปุณณวิถี (Punnawithi)</option>
+          <option value="Bang Chak">บางจาก (Bang Chak)</option>
+          <option value="On Nut">อ่อนนุช (On Nut)</option>
+          <option value="Phra Khanong">พระโขนง (Phra Khanong)</option>
+          <option value="Ekkamai">เอกมัย (Ekkamai)</option>
+          <option value="Thong Lo">ทองหล่อ (Thong Lo)</option>
+          <option value="Phrom Phong">พร้อมพงษ์ (Phrom Phong)</option>
+          <option value="Asok">อโศก (Asok)</option>
+          <option value="Nana">นานา (Nana)</option>
+          <option value="Phloen Chit">เพลินจิต (Phloen Chit)</option>
+          <option value="Chit Lom">ชิดลม (Chit Lom)</option>
+          <option value="Siam">สยาม (Siam)</option>
+          <option value="Ratchathewi">ราชเทวี (Ratchathewi)</option>
+          <option value="Phaya Thai">พญาไท (Phaya Thai)</option>
+          <option value="Victory Monument">อนุสาวรีย์ชัยสมรภูมิ (Victory Monument)</option>
+          <option value="Sanam Pao">สนามเป้า (Sanam Pao)</option>
+          <option value="Ari">อารีย์ (Ari)</option>
+          <option value="Saphan Khwai">สะพานควาย (Saphan Khwai)</option>
+          <option value="Mo Chit">หมอชิต (Mo Chit)</option>
+          <option value="Ha Yaek Lat Phrao">ห้าแยกลาดพร้าว (Ha Yaek Lat Phrao)</option>
+          <option value="Phahon Yothin 24">พหลโยธิน 24 (Phahon Yothin 24)</option>
+          <option value="Ratchayothin">รัชโยธิน (Ratchayothin)</option>
+          <option value="Sena Nikhom">เสนานิคม (Sena Nikhom)</option>
+          <option value="Kasetsart University">มหาวิทยาลัยเกษตรศาสตร์ (Kasetsart University)</option>
+          <option value="Department of Forestry">กรมป่าไม้ (Department of Forestry)</option>
+          <option value="Bang Bua">บางบัว (Bang Bua)</option>
+          <option value="11th Infantry Regiment">กรมทหารราบที่ 11 (11th Infantry Regiment)</option>
+          <option value="Wat Phra Sri Mahathat">วัดพระศรีมหาธาตุ (Wat Phra Sri Mahathat)</option>
+          <option value="Phahon Yothin 59">พหลโยธิน 59 (Phahon Yothin 59)</option>
+          <option value="Sai Yud">สายหยุด (Sai Yud)</option>
+          <option value="Saphan Mai">สะพานใหม่ (Saphan Mai)</option>
+          <option value="Bhumibol Adulyadej Hospital">โรงพยาบาลภูมิพลอดุลยเดช (Bhumibol Adulyadej Hospital)</option>
+          <option value="Royal Thai Air Force Museum">พิพิธภัณฑ์กองทัพอากาศ (Royal Thai Air Force Museum)</option>
+          <option value="Yaek Kor Por Aor">แยก คปอ. (Yaek Kor Por Aor)</option>
+          <option value="Khu Khot">คูคต (Khu Khot)</option>
+        </optgroup>
+        <!-- Silom Line -->
+        <optgroup label="Silom Line">
+          <option value="Bang Wa">บางหว้า (Bang Wa)</option>
+          <option value="Wutthakat">วุฒากาศ (Wutthakat)</option>
+          <option value="Talat Phlu">ตลาดพลู (Talat Phlu)</option>
+          <option value="Pho Nimit">โพธิ์นิมิตร (Pho Nimit)</option>
+          <option value="Wongwian Yai">วงเวียนใหญ่ (Wongwian Yai)</option>
+          <option value="Krung Thon Buri">กรุงธนบุรี (Krung Thon Buri)</option>
+          <option value="Saphan Taksin">สะพานตากสิน (Saphan Taksin)</option>
+          <option value="Surasak">สุรศักดิ์ (Surasak)</option>
+          <option value="Chong Nonsi">ช่องนนทรี (Chong Nonsi)</option>
+          <option value="Sala Daeng">ศาลาแดง (Sala Daeng)</option>
+          <option value="Ratchadamri">ราชดำริ (Ratchadamri)</option>
+          <option value="Siam">สยาม (Siam)</option>
+          <option value="National Stadium">สนามกีฬาแห่งชาติ (National Stadium)</option>
+        </optgroup>
+      </select>
+
 
       <label for="carriageNumber">Carriage Number:</label>
       <input type="number" id="carriageNumber" placeholder="Enter carriage number" required />
@@ -131,7 +198,73 @@
 
     <div class="recent-reports">
       <h2>Recent Reports</h2>
-      <input type="text" id="queryStation" placeholder="Enter station name" />
+      <select type="text" id="queryStation" required>
+        <option value="" disabled selected>Choose a station</option>
+        <!-- Sukhumvit Line -->
+        <optgroup label="Sukhumvit Line">
+          <option value="Kheha">เคหะฯ (Kheha)</option>
+          <option value="Sai Luat">สายลวด (Sai Luat)</option>
+          <option value="Pu Chao">ปู่เจ้าสมิงพราย (Pu Chao)</option>
+          <option value="Chang Erawan">ช้างเอราวัณ (Chang Erawan)</option>
+          <option value="Royal Thai Naval Academy">โรงเรียนนายเรือ (Royal Thai Naval Academy)</option>
+          <option value="Pak Nam">ปากน้ำ (Pak Nam)</option>
+          <option value="Sri Nakhon">ศรีนครินทร์ (Sri Nakhon)</option>
+          <option value="Bearing">แบริ่ง (Bearing)</option>
+          <option value="Bang Na">บางนา (Bang Na)</option>
+          <option value="Udom Suk">อุดมสุข (Udom Suk)</option>
+          <option value="Punnawithi">ปุณณวิถี (Punnawithi)</option>
+          <option value="Bang Chak">บางจาก (Bang Chak)</option>
+          <option value="On Nut">อ่อนนุช (On Nut)</option>
+          <option value="Phra Khanong">พระโขนง (Phra Khanong)</option>
+          <option value="Ekkamai">เอกมัย (Ekkamai)</option>
+          <option value="Thong Lo">ทองหล่อ (Thong Lo)</option>
+          <option value="Phrom Phong">พร้อมพงษ์ (Phrom Phong)</option>
+          <option value="Asok">อโศก (Asok)</option>
+          <option value="Nana">นานา (Nana)</option>
+          <option value="Phloen Chit">เพลินจิต (Phloen Chit)</option>
+          <option value="Chit Lom">ชิดลม (Chit Lom)</option>
+          <option value="Siam">สยาม (Siam)</option>
+          <option value="Ratchathewi">ราชเทวี (Ratchathewi)</option>
+          <option value="Phaya Thai">พญาไท (Phaya Thai)</option>
+          <option value="Victory Monument">อนุสาวรีย์ชัยสมรภูมิ (Victory Monument)</option>
+          <option value="Sanam Pao">สนามเป้า (Sanam Pao)</option>
+          <option value="Ari">อารีย์ (Ari)</option>
+          <option value="Saphan Khwai">สะพานควาย (Saphan Khwai)</option>
+          <option value="Mo Chit">หมอชิต (Mo Chit)</option>
+          <option value="Ha Yaek Lat Phrao">ห้าแยกลาดพร้าว (Ha Yaek Lat Phrao)</option>
+          <option value="Phahon Yothin 24">พหลโยธิน 24 (Phahon Yothin 24)</option>
+          <option value="Ratchayothin">รัชโยธิน (Ratchayothin)</option>
+          <option value="Sena Nikhom">เสนานิคม (Sena Nikhom)</option>
+          <option value="Kasetsart University">มหาวิทยาลัยเกษตรศาสตร์ (Kasetsart University)</option>
+          <option value="Department of Forestry">กรมป่าไม้ (Department of Forestry)</option>
+          <option value="Bang Bua">บางบัว (Bang Bua)</option>
+          <option value="11th Infantry Regiment">กรมทหารราบที่ 11 (11th Infantry Regiment)</option>
+          <option value="Wat Phra Sri Mahathat">วัดพระศรีมหาธาตุ (Wat Phra Sri Mahathat)</option>
+          <option value="Phahon Yothin 59">พหลโยธิน 59 (Phahon Yothin 59)</option>
+          <option value="Sai Yud">สายหยุด (Sai Yud)</option>
+          <option value="Saphan Mai">สะพานใหม่ (Saphan Mai)</option>
+          <option value="Bhumibol Adulyadej Hospital">โรงพยาบาลภูมิพลอดุลยเดช (Bhumibol Adulyadej Hospital)</option>
+          <option value="Royal Thai Air Force Museum">พิพิธภัณฑ์กองทัพอากาศ (Royal Thai Air Force Museum)</option>
+          <option value="Yaek Kor Por Aor">แยก คปอ. (Yaek Kor Por Aor)</option>
+          <option value="Khu Khot">คูคต (Khu Khot)</option>
+        </optgroup>
+        <!-- Silom Line -->
+        <optgroup label="Silom Line">
+          <option value="Bang Wa">บางหว้า (Bang Wa)</option>
+          <option value="Wutthakat">วุฒากาศ (Wutthakat)</option>
+          <option value="Talat Phlu">ตลาดพลู (Talat Phlu)</option>
+          <option value="Pho Nimit">โพธิ์นิมิตร (Pho Nimit)</option>
+          <option value="Wongwian Yai">วงเวียนใหญ่ (Wongwian Yai)</option>
+          <option value="Krung Thon Buri">กรุงธนบุรี (Krung Thon Buri)</option>
+          <option value="Saphan Taksin">สะพานตากสิน (Saphan Taksin)</option>
+          <option value="Surasak">สุรศักดิ์ (Surasak)</option>
+          <option value="Chong Nonsi">ช่องนนทรี (Chong Nonsi)</option>
+          <option value="Sala Daeng">ศาลาแดง (Sala Daeng)</option>
+          <option value="Ratchadamri">ราชดำริ (Ratchadamri)</option>
+          <option value="Siam">สยาม (Siam)</option>
+          <option value="National Stadium">สนามกีฬาแห่งชาติ (National Stadium)</option>
+        </optgroup>
+      </select>
       <button id="fetchReports">Fetch Reports</button>
       <div id="reports"></div>
     </div>
