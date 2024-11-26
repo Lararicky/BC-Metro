@@ -403,25 +403,65 @@ const contractAddress = '0x5209CFE7571F3006B1fA39fC3535967827E494fc'; // Contrac
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 // DOM Elements
+const connectWalletBtn = document.getElementById('connectWallet'); // ConnectWallet
 const accountSelect = document.getElementById('accountSelect');
 const reportForm = document.getElementById('reportForm');
 const fetchReportsBtn = document.getElementById('fetchReports');
 const reportsDiv = document.getElementById('reports');
 const queryStationInput = document.getElementById('queryStation');
-
 const checkBalanceBtn = document.getElementById('checkBalance');
 const balanceDisplay = document.getElementById('balanceDisplay');
 
 // Load accounts from Ganache
-async function loadAccounts() {
-	const accounts = await web3.eth.getAccounts();
-	accounts.forEach((account) => {
-		const option = document.createElement('option');
-		option.value = account;
-		option.textContent = account;
-		accountSelect.appendChild(option);
-	});
+async function loadAccount() {
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const selectedAccount = accounts[0]; // Prompt user to select an account
+            accountSelect.innerHTML = ''; // Clear dropdown options
+            const option = document.createElement('option');
+            option.value = selectedAccount;
+            option.textContent = selectedAccount;
+            accountSelect.appendChild(option);
+        } catch (error) {
+            console.error('Error requesting account access:', error);
+            alert('Please connect to MetaMask to proceed.');
+        }
+    } else {
+        alert('MetaMask is not installed. Please install it to use this feature.');
+    }
 }
+
+// Handle Wallet Connection
+connectWalletBtn.addEventListener('click', async () => {
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            // Request MetaMask accounts
+            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            
+            if (accounts.length > 0) {
+                const selectedAccount = accounts[0];
+                
+                // Display the connected account in the dropdown
+                accountSelect.innerHTML = ''; // Clear existing options
+                const option = document.createElement('option');
+                option.value = selectedAccount;
+                option.textContent = selectedAccount;
+                accountSelect.appendChild(option);
+
+                // Update button text to show connection status
+                connectWalletBtn.textContent = `Connected: ${selectedAccount}`;
+                connectWalletBtn.disabled = true; // Disable button after connection
+            }
+        } catch (error) {
+            console.error('User denied account access:', error);
+            alert('Account connection failed. Please try again.');
+        }
+    } else {
+        alert('MetaMask is not installed. Please install it to use this feature.');
+    }
+});
+
 
 // Submit Report
 reportForm.addEventListener('submit', async (e) => {
