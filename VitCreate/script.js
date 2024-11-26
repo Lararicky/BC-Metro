@@ -223,7 +223,7 @@ const contractABI = [
 		"type": "function"
 	}
 ];
-const contractAddress = '0xF1d07950769E3F9d89FeE5Aa62F23Cff9A72E983'; // Contract Address
+const contractAddress = '0xCB6CbC29cECb0a739319aC132AB0db8bB4b33102'; // Contract Address
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 // DOM Elements
