@@ -404,6 +404,7 @@ const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 // DOM Elements
 const connectWalletBtn = document.getElementById('connectWallet'); // ConnectWallet
+const signOutBtn = document.getElementById('signOut'); // SignOut
 const accountSelect = document.getElementById('accountSelect');
 const reportForm = document.getElementById('reportForm');
 const fetchReportsBtn = document.getElementById('fetchReports');
@@ -412,46 +413,27 @@ const queryStationInput = document.getElementById('queryStation');
 const checkBalanceBtn = document.getElementById('checkBalance');
 const balanceDisplay = document.getElementById('balanceDisplay');
 
-// Load accounts from Ganache
-async function loadAccount() {
-    if (typeof window.ethereum !== 'undefined') {
-        try {
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-            const selectedAccount = accounts[0]; // Prompt user to select an account
-            accountSelect.innerHTML = ''; // Clear dropdown options
-            const option = document.createElement('option');
-            option.value = selectedAccount;
-            option.textContent = selectedAccount;
-            accountSelect.appendChild(option);
-        } catch (error) {
-            console.error('Error requesting account access:', error);
-            alert('Please connect to MetaMask to proceed.');
-        }
-    } else {
-        alert('MetaMask is not installed. Please install it to use this feature.');
-    }
-}
-
 // Handle Wallet Connection
 connectWalletBtn.addEventListener('click', async () => {
     if (typeof window.ethereum !== 'undefined') {
         try {
-            // Request MetaMask accounts
+            // Prompt MetaMask to let the user choose an account
             const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-            
+
             if (accounts.length > 0) {
                 const selectedAccount = accounts[0];
                 
-                // Display the connected account in the dropdown
+                // Populate the dropdown with the selected account
                 accountSelect.innerHTML = ''; // Clear existing options
                 const option = document.createElement('option');
                 option.value = selectedAccount;
                 option.textContent = selectedAccount;
                 accountSelect.appendChild(option);
 
-                // Update button text to show connection status
+                // Update UI
                 connectWalletBtn.textContent = `Connected: ${selectedAccount}`;
-                connectWalletBtn.disabled = true; // Disable button after connection
+                connectWalletBtn.disabled = true; // Disable Connect Wallet button
+                signOutBtn.style.display = 'inline-block'; // Show Sign Out button
             }
         } catch (error) {
             console.error('User denied account access:', error);
@@ -461,6 +443,38 @@ connectWalletBtn.addEventListener('click', async () => {
         alert('MetaMask is not installed. Please install it to use this feature.');
     }
 });
+
+// Handle Sign Out
+signOutBtn.addEventListener('click', () => {
+    // Clear account dropdown and reset UI
+    accountSelect.innerHTML = ''; // Clear the dropdown
+    connectWalletBtn.textContent = 'Connect Wallet';
+    connectWalletBtn.disabled = false; // Re-enable Connect Wallet button
+    signOutBtn.style.display = 'none'; // Hide Sign Out button
+
+    alert('You have signed out successfully. Please reconnect to an account.');
+});
+
+// Detect Account Changes
+if (typeof window.ethereum !== 'undefined') {
+    ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length > 0) {
+            // Update dropdown with the new account
+            const selectedAccount = accounts[0];
+            accountSelect.innerHTML = ''; // Clear existing options
+            const option = document.createElement('option');
+            option.value = selectedAccount;
+            option.textContent = selectedAccount;
+            accountSelect.appendChild(option);
+
+            connectWalletBtn.textContent = `Connected: ${selectedAccount}`;
+        } else {
+            // Handle account disconnection
+            alert('No accounts connected. Please reconnect to choose an account.');
+            signOutBtn.click(); // Trigger sign-out functionality
+        }
+    });
+}
 
 
 // Submit Report
