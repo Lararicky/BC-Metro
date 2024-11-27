@@ -449,7 +449,7 @@ const contractABI = [
 		"stateMutability": "view",
 		"type": "function"
 	}
-];
+]
 const contractAddress = "0x7B03Fe2b9cD73F2ff4eDE1C7984989931FA9A572"; // Contract Address
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
