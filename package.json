@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "node-cron": "^3.0.3",
+    "web3": "^4.15.0"
+  }
+}
