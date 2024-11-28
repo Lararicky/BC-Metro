@@ -87,13 +87,21 @@ label {
 input,
 select,
 button {
+  display: block;
   width: 100%;
+  box-sizing: border-box;
   padding: 12px;
   margin-bottom: 15px;
-  border: 1px solid #A6A6A6; /* ขอบสีเทากลาง */
+  border: 1px solid #A6A6A6;
   border-radius: 8px;
   font-size: 16px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="number"] {
+  appearance: textfield; /* Remove browser-specific spinner */
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
 }
 
 input:focus,
@@ -157,6 +165,28 @@ button:hover::after {
   border-radius: 10px;
   background-color: #FFFFFF; /* พื้นหลังของรายงานเป็นสีขาว */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the input number field */
+.input-number {
+  width: 100%; /* Full width */
+  padding: 12px; /* Padding for spacing */
+  margin-bottom: 15px; /* Space below the field */
+  border: 1px solid #A6A6A6; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth focus effects */
+}
+
+.input-number:focus {
+  outline: none; /* Remove default outline */
+  border-color: #000000; /* Black border on focus */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.6); /* Subtle shadow */
+}
+
+.input-number:hover {
+  transform: scale(1.02); /* Slightly enlarge on hover */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* Add a shadow on hover */
 }
 
 </style>
@@ -259,7 +289,7 @@ button:hover::after {
 
 
       <label for="carriageNumber">Carriage Number:</label>
-      <input type="number" id="carriageNumber" placeholder="Enter carriage number" required />
+      <input class="input-number" type="number" id="carriageNumber" placeholder="Enter carriage number" required />
 
       <label for="density">Density Level:</label>
       <select id="density" required>
