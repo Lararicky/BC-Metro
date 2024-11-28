@@ -450,7 +450,7 @@ const contractABI = [
 		"type": "function"
 	}
 ]
-const contractAddress = "0x7B03Fe2b9cD73F2ff4eDE1C7984989931FA9A572"; // Contract Address
+const contractAddress = "0x2bee9c024E8818a2bDF03293e5aE2622A6852Df2"; // Contract Address
 const contract = new web3.eth.Contract(contractABI, contractAddress);
 
 // DOM Elements
@@ -604,8 +604,6 @@ fetchReportsBtn.addEventListener('click', async () => {
 	}
   });
   
-
-
 // Check Token Balance
 checkBalanceBtn.addEventListener("click", async () => {
   const selectedAccount = accountSelect.value;
