@@ -576,22 +576,22 @@ fetchReportsBtn.addEventListener('click', async () => {
 	  // ตรวจสอบว่ามีรายงานในช่วง 5 นาทีหรือไม่
 	  if (reports.length === 0) {
 		reportsDiv.innerHTML += `
-		  <p>No recent reports found for station "${stationName}" in the last 5 minutes.</p>
-		  <p>Please check back later or submit a new report.</p>
+		  <p class="no-reports-message">No recent reports found for station "${stationName}" in the last 5 minutes.</p>
+		  <p class="no-reports-message">Please check back later or submit a new report.</p>
 		`;
 	  } else {
 		// แสดงรายงานทั้งหมดที่มี
 		reports.forEach((report, index) => {
-		  const reportHTML = `
-			<div>
-			  <strong>Report #${index + 1}</strong><br>
-			  Station: ${report.stationName}<br>
-			  Carriage: ${report.carriageNumber}<br>
-			  Density: ${["LOW", "MEDIUM", "HIGH"][report.density]}<br>
-			  Timestamp: ${new Date(report.timestamp * 1000).toLocaleString()}<br>
-			  Reporter: ${report.reporter}<br>
-			</div>
-			<hr>
+			const reportHTML = `
+			  <div class="report">
+				<strong>Report #${index + 1}</strong><br>
+				Station: ${report.stationName}<br>
+				Carriage: ${report.carriageNumber}<br>
+				Density: ${["LOW", "MEDIUM", "HIGH"][report.density]}<br>
+				Timestamp: ${new Date(report.timestamp * 1000).toLocaleString()}<br>
+				Reporter: ${report.reporter}<br>
+			  </div>
+		    <hr>
 		  `;
 		  reportsDiv.innerHTML += reportHTML;
 		});
@@ -599,7 +599,7 @@ fetchReportsBtn.addEventListener('click', async () => {
 	} catch (error) {
 	  console.error('Error fetching reports:', error);
 	  reportsDiv.innerHTML = `
-		<p>Error fetching recent reports. Please try again.</p>
+		<p class="error-message" >Error fetching recent reports. Please try again.</p>
 	  `;
 	}
   });
