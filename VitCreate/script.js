@@ -576,7 +576,7 @@ fetchReportsBtn.addEventListener('click', async () => {
 	  // ตรวจสอบว่ามีรายงานในช่วง 5 นาทีหรือไม่
 	  if (reports.length === 0) {
 		reportsDiv.innerHTML += `
-		  <p class="no-reports-message">No recent reports found for station "${stationName}" in the last 5 minutes.</p>
+		  <p class="no-reports-message">No recent reports found for station "${stationName}" in the last 2 minutes.</p>
 		  <p class="no-reports-message">Please check back later or submit a new report.</p>
 		`;
 	  } else {
