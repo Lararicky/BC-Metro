@@ -120,7 +120,7 @@ contract TrainDensityReport {
         emit Transfer(address(0), msg.sender, reward); // Mint tokens to the reporter
     }
 
-    // ฟังก์ชันดึงข้อมูลรายงานย้อนหลัง 5 นาที
+    // ฟังก์ชันดึงข้อมูลรายงานย้อนหลัง 2 นาที
     function getRecentReports(string memory _stationName)
         public
         view
@@ -128,12 +128,12 @@ contract TrainDensityReport {
     {
         DensityReport[] storage allReports = stationReports[_stationName];
         uint256 currentTime = block.timestamp;
-        uint256 fiveMinutesAgo = currentTime - 5 minutes;
+        uint256 twoMinutesAgo = currentTime - 2 minutes;
 
-        // นับจำนวนรายงานในช่วง 5 นาที
+        // นับจำนวนรายงานในช่วง 2 นาที
         uint256 recentReportsCount = 0;
         for (uint256 i = 0; i < allReports.length; i++) {
-            if (allReports[i].timestamp >= fiveMinutesAgo) {
+            if (allReports[i].timestamp >= twoMinutesAgo) {
                 recentReportsCount++;
             }
         }
@@ -144,7 +144,7 @@ contract TrainDensityReport {
         );
         uint256 currentIndex = 0;
         for (uint256 i = 0; i < allReports.length; i++) {
-            if (allReports[i].timestamp >= fiveMinutesAgo) {
+            if (allReports[i].timestamp >= twoMinutesAgo) {
                 recentReports[currentIndex] = allReports[i];
                 currentIndex++;
             }
